@@ -1,18 +1,20 @@
+from funcs import queuea, stacka, searcha, sorta
+
 def main():
     while True:
         print("""
-            1 - registrar consumo
-            2 - consultar consumo
-            3 - localizar consumo
-            4 - ordenar consumo
+            1 - register items
+            2 - consult items
+            3 - locate items
+            4 - sort items
             """)
         
         while True:
             try:
-                num = int(input("digite um numero: "))
+                num = int(input("type a number: "))
                 break
             except ValueError:
-                print("digite um **numero**")
+                print("type a **number**")
 
         match num:
             case 1:
@@ -23,6 +25,8 @@ def main():
                 searcha()
             case 4:
                 sorta()
+            case _:
+                print("1 - 4 only")
 
 if __name__ == "__main__":
     main()
