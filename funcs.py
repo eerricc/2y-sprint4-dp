@@ -1,6 +1,7 @@
 from datetime import datetime
 import time
 import tracemalloc
+from utils import merge_sort, quick_sort
 
 consumos = []
 
@@ -20,18 +21,17 @@ def queuea():
                 if qtd_str.isdigit() and int(qtd_str) > 0:
                     quantidade = int(qtd_str)
                     break
-                print("quantity must be positive")
+                print("quantity must be a positive number")
 
             # get expiration date
             while True:
                 validade = input("expiration date (dd/mm/yyyy): ").strip()
                 try:
-                    datetime.strptime(validade, "%d/%m/%Y")  # validate format
+                    datetime.strptime(validade, "%d/%m/%Y")  # format
                     break
                 except ValueError:
                     print("invalid date format. use dd/mm/yyyy")
 
-            # If all good, append
             consumos.append({
                 "name": nome,
                 "quant": quantidade,
@@ -39,11 +39,11 @@ def queuea():
             })
 
             print("success\n")
+            return
 
         except KeyboardInterrupt:
             print("\nstopping.")
             break
-
 
 # stack
 def stacka():
@@ -53,28 +53,30 @@ def stacka():
 
     for item in reversed(consumos):
         print(item)
+    return
 
 # search
 def searcha():
+    if not consumos:
+        print("there are no registers")
+        return
+    
     while True:
         print("""
-              1 - sequencial
-              2 - binaria  
+              1 - sequential
+              2 - binary
         """)
-    
+
         while True:
             try:
-                num = int(input("digite um numero"))
+                num = int(input("digite um numero: "))
                 break
             except ValueError:
                 print("number please")
 
         match num:
             case 1:
-                if not consumos:
-                    print("nenhum registro")
-
-                targ = input("digite o nome do item:")
+                targ = input("digite o nome do item: ")
 
                 tracemalloc.start()
                 start_time = time.perf_counter()
@@ -94,32 +96,52 @@ def searcha():
                 else:
                     print("nao encontrado")
 
-                print(f"time: {(end_time - start_time)*1000:.3f} ms")
-                print(f"memory usage: {current/1024:.3f} KB | peak: {peak/1024:.3f} KB")
+                print(f"Tempo: {(end_time - start_time)*1000:.3f} ms")
+                print(f"Memória usada: {current/1024:.3f} KB | Pico: {peak/1024:.3f} KB")
 
             case 2:
                 pass
+
 
 # sort
 def sorta():
+    global consumos
+
+    if not consumos:
+        print("there are no registers")
+        return
+
     while True:
         print("""
-        1 - nome
-        2 - quantidade
-        3 - validade  
+        1 - merge sort
+        2 - quick sort
         """)
+        try:
+            algo_choice = int(input("algo choice: "))
+        except ValueError:
+            print("numbers only")
+            continue
+        if algo_choice in (1,2):
+            break
+        print("either 1 or 2")
 
-        while True:
-            try:
-                num = int(input("digite um numero: "))
-                break
-            except ValueError:
-                print("numeroooo")
+    # run chosen algorithm and measure
+    tracemalloc.start()
+    start_time = time.perf_counter()
 
-        match num:
-            case 1:
-                pass
-            case 2:
-                pass
-            case 3:
-                pass
+    if algo_choice == 1:
+        consumos = merge_sort(consumos)
+        method = "merge sort"
+    else:
+        consumos = quick_sort(consumos)
+        method = "quick sort"
+
+    end_time = time.perf_counter()
+    current, peak = tracemalloc.get_traced_memory()
+    tracemalloc.stop()
+
+    print(f"list ordered by quantity using {method}.")
+    print(f"time: {(end_time - start_time)*1000:.3f} ms")
+    print(f"memory: {current/1024:.3f} KB | peak: {peak/1024:.3f} KB")
+    return
+

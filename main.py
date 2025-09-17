@@ -2,19 +2,23 @@ from funcs import queuea, stacka, searcha, sorta
 
 def main():
     while True:
-        print("""
-            1 - register items
-            2 - consult items
-            3 - locate items
-            4 - sort items
-            """)
-        
+        print("""\n--- menu ---\n
+1 - register items
+2 - consult items
+3 - locate items
+4 - sort items
+0 - exit
+        """)
+
         while True:
             try:
-                num = int(input("type a number: "))
-                break
+                num = int(input("type a number: ").strip())
+                if 0 <= num <= 4:
+                    break
+                else:
+                    print("1-4 or 0 only\n")
             except ValueError:
-                print("type a **number**")
+                print("type a **number**\n")
 
         match num:
             case 1:
@@ -25,8 +29,9 @@ def main():
                 searcha()
             case 4:
                 sorta()
-            case _:
-                print("1 - 4 only")
-
+            case 0:
+                print("Exiting...")
+                return
+            
 if __name__ == "__main__":
     main()
