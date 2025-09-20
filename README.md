@@ -17,13 +17,13 @@ files:
 - funcs.py
 - utils.py
 
-###### main
+### main
 funciona como menu para o user selecionar a opcao desejada
 
-###### utils
+### utils
 onde foram definidas funcoes helper, nao sao as principais porem ajudam
 
-##### funcs
+### funcs
 onde a maior parte do codigo fica. as 4 funcoes principais sao as demonstradas na section de complexidade.
 
 ###### queuea (fila)
