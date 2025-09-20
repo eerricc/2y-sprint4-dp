@@ -5,7 +5,7 @@ def quicksort(lista):
     menores = []
     maiores = []
     for elemento in lista[1:]:
-        if elemento < pivot:
+        if elemento["quantity"] < pivot["quantity"]:
             menores.append(elemento)
         else:
             maiores.append(elemento)

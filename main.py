@@ -1,4 +1,4 @@
-from funcs import queuea, stacka, searcha, sorta
+from funcs import queuea, consulta, searcha, sorta
 
 def main():
     while True:
@@ -12,25 +12,26 @@ def main():
 
         while True:
             try:
+                print("----------")
                 num = int(input("type a number: ").strip())
                 if 0 <= num <= 4:
                     break
                 else:
-                    print("1-4 or 0 only\n")
+                    print("-> 1-4 or 0 only\n")
             except ValueError:
-                print("type a **number**\n")
+                print("-> type a **number**\n")
 
         match num:
             case 1:
                 queuea()
             case 2:
-                stacka()
+                consulta()
             case 3:
                 searcha()
             case 4:
                 sorta()
             case 0:
-                print("Exiting...")
+                print("-> Exiting...")
                 return
             
 if __name__ == "__main__":
