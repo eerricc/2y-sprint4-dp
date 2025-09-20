@@ -39,8 +39,8 @@ funcao para procurar por items, sequencial caso o user queira procurar por nome,
 funcao de sort, o algoritimo utilizado foi o quicksort
 
 ## integrantes
-Joao Victor Oliveira dos Santos
-Matheus Alcantara Estevao
-Pedro Pereira dos Santos
+Joao Victor Oliveira dos Santos rm557948
+Matheus Alcantara Estevao rm558193
+Pedro Pereira dos Santos rm552047
 Nicolle Pellegrino Jelinski
 Eric Segawa Montagner rm558224
