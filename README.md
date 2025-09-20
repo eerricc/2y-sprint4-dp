@@ -42,5 +42,5 @@ funcao de sort, o algoritimo utilizado foi o quicksort
 Joao Victor Oliveira dos Santos rm557948
 Matheus Alcantara Estevao rm558193
 Pedro Pereira dos Santos rm552047
-Nicolle Pellegrino Jelinski
+Nicolle Pellegrino Jelinski rm558610
 Eric Segawa Montagner rm558224
