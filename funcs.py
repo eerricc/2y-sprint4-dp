@@ -1,9 +1,9 @@
 from datetime import datetime
 import time
 import tracemalloc
-from utils import merge_sort, quick_sort
+from utils import quicksort
 
-consumos = []
+consumos = [] # queue
 
 def queuea():
     while True:
@@ -32,7 +32,7 @@ def queuea():
                 except ValueError:
                     print("invalid date format. use dd/mm/yyyy")
 
-            consumos.append({
+            consumos.append({ # append to put everything in the end of the queue
                 "name": nome,
                 "quant": quantidade,
                 "validade": validade
@@ -45,13 +45,13 @@ def queuea():
             print("\nstopping.")
             break
 
-# stack
-def stacka():
+# look
+def consulta():
     if not consumos:
         print("there are no registers")
         return
 
-    for item in reversed(consumos):
+    for item in reversed(consumos): # stack
         print(item)
     return
 
@@ -63,44 +63,64 @@ def searcha():
     
     while True:
         print("""
-              1 - sequential
-              2 - binary
+              1 - search by name (sequential)
+              2 - search by quantity (binary)
         """)
 
         while True:
             try:
-                num = int(input("digite um numero: "))
-                break
+                num = int(input("pick a number: "))
+                if num == 1 or num == 2:
+                    break
+                else:
+                    return False
+                
             except ValueError:
                 print("number please")
 
         match num:
             case 1:
-                targ = input("digite o nome do item: ")
+                targ = input("type item name: ")
 
                 tracemalloc.start()
                 start_time = time.perf_counter()
 
-                found = None
                 for item in consumos:
                     if item["name"] == targ:
-                        found = item
+                        print("found:", item["name"])
                         break
+                    else:
+                        print("item not found")
 
                 end_time = time.perf_counter()
                 current, peak = tracemalloc.get_traced_memory()
                 tracemalloc.stop()
 
-                if found:
-                    print("encontrado:", found)
-                else:
-                    print("nao encontrado")
 
                 print(f"Tempo: {(end_time - start_time)*1000:.3f} ms")
                 print(f"Memória usada: {current/1024:.3f} KB | Pico: {peak/1024:.3f} KB")
 
             case 2:
-                pass
+                if consumos == sorted(consumos):
+                    continue
+                else:
+                    print("the queue is unsorted, sort it first")
+
+                # binary search
+
+
+                targ = input("type item amount: ")
+
+                tracemalloc.start()
+                start_time = time.perf_counter()
+
+                end_time = time.perf_counter()
+                current, peak = tracemalloc.get_traced_memory()
+                tracemalloc.stop()
+
+                print(f"Tempo: {(end_time - start_time)*1000:.3f} ms")
+                print(f"Memória usada: {current/1024:.3f} KB | Pico: {peak/1024:.3f} KB")
+
 
 
 # sort
@@ -111,36 +131,16 @@ def sorta():
         print("there are no registers")
         return
 
-    while True:
-        print("""
-        1 - merge sort
-        2 - quick sort
-        """)
-        try:
-            algo_choice = int(input("algo choice: "))
-        except ValueError:
-            print("numbers only")
-            continue
-        if algo_choice in (1,2):
-            break
-        print("either 1 or 2")
-
-    # run chosen algorithm and measure
     tracemalloc.start()
     start_time = time.perf_counter()
 
-    if algo_choice == 1:
-        consumos = merge_sort(consumos)
-        method = "merge sort"
-    else:
-        consumos = quick_sort(consumos)
-        method = "quick sort"
+    consumos = quicksort(consumos)
 
     end_time = time.perf_counter()
     current, peak = tracemalloc.get_traced_memory()
     tracemalloc.stop()
 
-    print(f"list ordered by quantity using {method}.")
+    print(f"list ordered by quantity using quicksort.")
     print(f"time: {(end_time - start_time)*1000:.3f} ms")
     print(f"memory: {current/1024:.3f} KB | peak: {peak/1024:.3f} KB")
     return
