@@ -2,7 +2,7 @@
 Sprint 3 Dynamic Programming
 
 ## estruturas utilizadas
-    lista (pilha e lista)
+    lista (pilha e fila)
     dicionarios
 
 ## funcoes utilizadas e complexidade
