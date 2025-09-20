@@ -12,3 +12,9 @@ def quicksort(lista):
     menores = quicksort(menores)
     maiores = quicksort(maiores)
     return menores + [pivot] + maiores
+
+def is_sorted(lst):
+    for i in range(len(lst) - 1):
+        if lst[i]["quantity"] > lst[i+1]["quantity"]:
+            return False
+    return True

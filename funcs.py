@@ -1,7 +1,7 @@
 from datetime import datetime
 import time
 import tracemalloc
-from utils import quicksort
+from utils import quicksort, is_sorted
 import random
 
 # dummy medical items
@@ -95,12 +95,15 @@ def searcha():
                 tracemalloc.start()
                 start_time = time.perf_counter()
 
+                found = False
                 for item in consumos:
                     if item["name"] == targ:
                         print("-> found:", item)
+                        found = True
                         break
-                    else:
-                        print("-> item not found")
+
+                if not found:
+                    print("-> item not found")
 
                 end_time = time.perf_counter()
                 current, peak = tracemalloc.get_traced_memory()
@@ -112,9 +115,7 @@ def searcha():
                 return
 
             case 2:
-                if consumos == sorted(consumos, key=lambda x: x["quantity"]):
-                    pass
-                else:
+                if not is_sorted(consumos):
                     print("-> the queue is unsorted, sort it first")
                     return
 
