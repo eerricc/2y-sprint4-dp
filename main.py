@@ -1,12 +1,12 @@
-from funcs import queuea, consulta, searcha, sorta
+from funcs import register, check, searcha, sorta
 
 def main():
     while True:
         print("""\n--- menu ---\n
 1 - register items
-2 - consult items
+2 - check items
 3 - locate items
-4 - sort items
+4 - 
 0 - exit
         """)
 
@@ -23,13 +23,13 @@ def main():
 
         match num:
             case 1:
-                queuea()
+                register()
             case 2:
-                consulta()
+                check()
             case 3:
                 searcha()
             case 4:
-                sorta()
+                pass
             case 0:
                 print("-> Exiting...")
                 return

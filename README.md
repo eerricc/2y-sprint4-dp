@@ -6,8 +6,8 @@ Sprint 3 Dynamic Programming
     dicionarios
 
 ## funcoes utilizadas e complexidade
-    queuea() O(1)
-    consulta() O(n)
+    register() O(1)
+    check() O(n)
     searcha() case 1: O(n), case 2: O(log n)
     sorta() avg: O(n log n), worst: O(n**2)
 
@@ -29,7 +29,7 @@ onde a maior parte do codigo fica. as 4 funcoes principais sao as demonstradas n
 ###### queuea (fila)
 funcao para adicionar items, o user digita nome, quantidade e validade do item, se tudo estiver de acordo, o item entra no estoque
 
-###### consulta (pilha)
+###### check (pilha)
 funcao para checar quais os items no estoque, funciona como pilha porque mostra os ultimos items da fila primeiro
 
 ###### searcha (sequencial e binaria)
