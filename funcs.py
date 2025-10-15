@@ -5,11 +5,7 @@ import random
 
 # dummy medical items
 consumos = [
-    {"name": "Bandage", "quantity": 50, "validade": "15/12/2025"},
-    {"name": "Syringe", "quantity": 120, "validade": "01/07/2026"},
-    {"name": "Antibiotic", "quantity": 30, "validade": "20/05/2025"},
-    {"name": "Painkiller", "quantity": 75, "validade": "11/11/2027"},
-    {"name": "Saline Bag", "quantity": 40, "validade": "09/03/2026"}
+
 ]
 
 random.shuffle(consumos)
@@ -42,12 +38,27 @@ def register():
                     print("-> invalid date format")
 
             # cost per unit
+            while True:
+                cos = input("cost per unit: ")
+                if cos.isdigit() and int(cos) > 0:
+                    cost = int(cos)
+                    break
+                print("-> cost must be a positive number")
+            
             # batch size
+            while True:
+                bat = input("batch size: ")
+                if bat.isdigit() and int(bat) > 0:
+                    batch = int(bat)
+                    break
+                print("-> batch size must be a positive number")
 
             consumos.append({
                 "name": nome,
                 "quantity": quantidade,
-                "validade": validade
+                "validade": validade,
+                "cost/unit": cost,
+                "batch": batch
             })
 
             print("-> success\n")
@@ -57,19 +68,45 @@ def register():
             print("\n-> stopping.")
             break
 
-# look
-def check():
-    # top down
-    pass 
-
-    # bottom up
+def edit():
     pass
 
 def searcha():
-    # top down
-    pass 
-
-    # bottom up
     pass
+
+def check():
+    for i in sorted(consumos, key=lambda x: datetime.strptime(x["validade"], "%d/%m/%Y")):
+        print(i)
+
+def exp_top():
+    dates = [datetime.strptime(item["validade"], "%d/%m/%Y") for item in consumos]
+    memo = {}
+    def lis(idx, prev_dt):
+        key = (idx, prev_dt)
+        if key in memo:
+            return memo[key]
+        if idx == len(dates):
+            return 0
+        skip = lis(idx + 1, prev_dt)
+        take = 0
+        if prev_dt is None or dates[idx] > prev_dt:
+            take = 1 + lis(idx + 1, dates[idx])
+        memo[key] = max(skip, take)
+        return memo[key]
+    return lis(0, None)
+
+def exp_bot():
+    dates = [datetime.strptime(item["validade"], "%d/%m/%Y") for item in consumos]
+    n = len(dates)
+    if n == 0:
+        return 0
+    dp = [1] * n
+    for i in range(n):
+        for j in range(i):
+            if dates[i] > dates[j]:
+                dp[i] = max(dp[i], dp[j]+1)
+    return max(dp)
+
+
 
 

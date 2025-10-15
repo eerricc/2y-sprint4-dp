@@ -1,4 +1,4 @@
-from funcs import register, check, searcha, sorta
+from funcs import register, check, searcha
 
 def main():
     while True:
