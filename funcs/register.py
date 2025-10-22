@@ -1,24 +1,13 @@
 from datetime import datetime
-import time
-import tracemalloc
-import random
 
-# dummy medical items
-consumos = [
-
-]
-
-random.shuffle(consumos)
-
-def register():
+def register(lista):
+    print("\n --- MEDICAL INVENTORY REGISTRATION ---")
     while True:
         try:
             # get name
             while True:
                 nome = input("item name: ").strip()
-                if nome: 
-                    break
-                print("type a name: ")
+                break
 
             # get quantity
             while True:
@@ -32,7 +21,13 @@ def register():
             while True:
                 validade = input("expiration date (dd/mm/yyyy): ").strip()
                 try:
-                    datetime.strptime(validade, "%d/%m/%Y")  # format
+                    exp_date = datetime.strptime(validade, "%d/%m/%Y")
+                    # Check if date is in the future
+                    if exp_date < datetime.now():
+                        print("-> this item has already expired")
+                        confirm = input("-> continue anyway? (y/n): ").lower()
+                        if confirm != 'y':
+                            continue
                     break
                 except ValueError:
                     print("-> invalid date format")
@@ -53,60 +48,23 @@ def register():
                     break
                 print("-> batch size must be a positive number")
 
-            consumos.append({
+            # Calculate total value
+            total_value = quantidade * cost * batch
+
+            lista.append({
                 "name": nome,
                 "quantity": quantidade,
                 "validade": validade,
                 "cost/unit": cost,
-                "batch": batch
+                "batch": batch,
+                "total value": total_value
             })
 
-            print("-> success\n")
+            print(f"\n item '{nome}' registered!")
+            print(f" summary: {quantidade} units worth ${total_value} total")
+            print(f" expires: {validade}")
             return
 
         except KeyboardInterrupt:
-            print("\n-> stopping.")
+            print("\n cancelled.")
             break
-
-def edit():
-    pass
-
-def searcha():
-    pass
-
-def check():
-    for i in sorted(consumos, key=lambda x: datetime.strptime(x["validade"], "%d/%m/%Y")):
-        print(i)
-
-def exp_top():
-    dates = [datetime.strptime(item["validade"], "%d/%m/%Y") for item in consumos]
-    memo = {}
-    def lis(idx, prev_dt):
-        key = (idx, prev_dt)
-        if key in memo:
-            return memo[key]
-        if idx == len(dates):
-            return 0
-        skip = lis(idx + 1, prev_dt)
-        take = 0
-        if prev_dt is None or dates[idx] > prev_dt:
-            take = 1 + lis(idx + 1, dates[idx])
-        memo[key] = max(skip, take)
-        return memo[key]
-    return lis(0, None)
-
-def exp_bot():
-    dates = [datetime.strptime(item["validade"], "%d/%m/%Y") for item in consumos]
-    n = len(dates)
-    if n == 0:
-        return 0
-    dp = [1] * n
-    for i in range(n):
-        for j in range(i):
-            if dates[i] > dates[j]:
-                dp[i] = max(dp[i], dp[j]+1)
-    return max(dp)
-
-
-
-

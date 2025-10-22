@@ -1,4 +1,4 @@
-from datetime import time
+import time
 from funcs import exp_top, exp_bot
 
 def compare_lis_methods():
