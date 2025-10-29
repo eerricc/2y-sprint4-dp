@@ -1,30 +1,103 @@
-from datetime import datetime
 
-def exp_top(lista):
-    dates = [datetime.strptime(item["validade"], "%d/%m/%Y") for item in lista]
+
+
+def total_inventory_value_top(lista):
+    """Top-down (recursive + memo) calculation of total inventory value.
+
+    Returns integer sum of quantity * cost/unit for all items. Invalid/missing
+    numeric values are treated as 0.
+    """
     memo = {}
-    def lis(idx, prev_dt):
-        key = (idx, prev_dt)
-        if key in memo:
-            return memo[key]
-        if idx == len(dates):
+    def helper(idx):
+        if idx in memo:
+            return memo[idx]
+        if idx >= len(lista):
             return 0
-        skip = lis(idx + 1, prev_dt)
-        take = 0
-        if prev_dt is None or dates[idx] > prev_dt:
-            take = 1 + lis(idx + 1, dates[idx])
-        memo[key] = max(skip, take)
-        return memo[key]
-    return lis(0, None)
+        item = lista[idx]
+        try:
+            qty = int(item.get("quantity", 0))
+        except (TypeError, ValueError):
+            qty = 0
+        try:
+            cost = int(item.get("cost/unit", 0))
+        except (TypeError, ValueError):
+            cost = 0
+        val = qty * cost + helper(idx + 1)
+        memo[idx] = val
+        return val
 
-def exp_bot(lista):
-    dates = [datetime.strptime(item["validade"], "%d/%m/%Y") for item in lista]
-    n = len(dates)
-    if n == 0:
-        return 0
-    dp = [1] * n
-    for i in range(n):
-        for j in range(i):
-            if dates[i] > dates[j]:
-                dp[i] = max(dp[i], dp[j]+1)
-    return max(dp)
+    return helper(0)
+
+
+def total_inventory_value_bot(lista):
+    """Bottom-up (iterative) calculation of total inventory value."""
+    total = 0
+    for item in lista:
+        try:
+            qty = int(item.get("quantity", 0))
+        except (TypeError, ValueError):
+            qty = 0
+        try:
+            cost = int(item.get("cost/unit", 0))
+        except (TypeError, ValueError):
+            cost = 0
+        total += qty * cost
+    return total
+
+
+def highest_total_product_top(lista):
+    """Top-down (recursive + memo) to find the product with highest total value.
+
+    Returns None if list is empty or no valid products. Otherwise returns a dict
+    with keys: 'item' (original item dict) and 'total_value' (int).
+    """
+    if not lista:
+        return None
+    memo = {}
+    def helper(idx):
+        # returns tuple (best_index, best_value) for sublist starting at idx
+        if idx in memo:
+            return memo[idx]
+        if idx >= len(lista):
+            return (None, -1)
+        item = lista[idx]
+        try:
+            qty = int(item.get("quantity", 0))
+            cost = int(item.get("cost/unit", 0))
+        except (TypeError, ValueError):
+            qty = 0
+            cost = 0
+        curr_val = qty * cost
+        next_best_idx, next_best_val = helper(idx + 1)
+        if curr_val >= next_best_val:
+            res = (idx, curr_val)
+        else:
+            res = (next_best_idx, next_best_val)
+        memo[idx] = res
+        return res
+
+    best_idx, best_val = helper(0)
+    if best_idx is None:
+        return None
+    return {"item": lista[best_idx], "total_value": best_val}
+
+
+def highest_total_product_bot(lista):
+    """Bottom-up (iterative) to find the product with highest total value."""
+    if not lista:
+        return None
+    best_item = None
+    best_value = -1
+    for item in lista:
+        try:
+            qty = int(item.get("quantity", 0))
+            cost = int(item.get("cost/unit", 0))
+        except (TypeError, ValueError):
+            continue
+        val = qty * cost
+        if val > best_value:
+            best_value = val
+            best_item = item
+    if best_item is None:
+        return None
+    return {"item": best_item, "total_value": best_value}

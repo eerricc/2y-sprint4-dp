@@ -32,36 +32,24 @@ def register(lista):
                 except ValueError:
                     print("-> invalid date format")
 
-            # cost per unit
+            # get cost per unit
             while True:
                 cos = input("cost per unit: ")
                 if cos.isdigit() and int(cos) > 0:
                     cost = int(cos)
                     break
                 print("-> cost must be a positive number")
-            
-            # batch size
-            while True:
-                bat = input("batch size: ")
-                if bat.isdigit() and int(bat) > 0:
-                    batch = int(bat)
-                    break
-                print("-> batch size must be a positive number")
 
-            # Calculate total value
-            total_value = quantidade * cost * batch
-
+            # append all data
             lista.append({
                 "name": nome,
                 "quantity": quantidade,
                 "validade": validade,
                 "cost/unit": cost,
-                "batch": batch,
-                "total value": total_value
             })
 
             print(f"\n item '{nome}' registered!")
-            print(f" summary: {quantidade} units worth ${total_value} total")
+            print(f" units: {quantidade}")
             print(f" expires: {validade}")
             return
 

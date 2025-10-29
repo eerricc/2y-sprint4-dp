@@ -14,10 +14,9 @@ def edit(lista):
 2 - edit quantity
 3 - edit expiration date
 4 - edit cost
-5 - edit batch
 0 - exit
 """)
-
+                    # editing menu
                     while True:
                         try:
                             num = int(input("type a number: ").strip())
@@ -29,6 +28,7 @@ def edit(lista):
                             print("-> type a NUMBER")
 
                     match num:
+                        # edit name
                         case 1:
                             new_name = input("new name: ").strip()
                             if new_name:
@@ -36,6 +36,7 @@ def edit(lista):
                                 print("-> name updated")
                             else:
                                 print("-> name cannot be empty")
+                        # edit quant
                         case 2:
                             while True:
                                 qtd_str = input("new quantity: ")
@@ -44,6 +45,7 @@ def edit(lista):
                                     print("-> quantity updated")
                                     break
                                 print("-> quantity must be a positive number")
+                        # edit date
                         case 3:
                             while True:
                                 validade = input("new expiration date (dd/mm/yyyy): ").strip()
@@ -59,6 +61,7 @@ def edit(lista):
                                     break
                                 except ValueError:
                                     print("-> invalid date format")
+                        # edit cost
                         case 4:
                             while True:
                                 cos = input("new cost per unit: ")
@@ -67,22 +70,9 @@ def edit(lista):
                                     print("-> cost updated")
                                     break
                                 print("-> cost must be a positive number")
-                        case 5:
-                            while True:
-                                bat = input("new batch size: ")
-                                if bat.isdigit() and int(bat) > 0:
-                                    item["batch"] = int(bat)
-                                    print("-> batch updated")
-                                    break
-                                print("-> batch size must be a positive number")
                         case 0:
                             print("-> Exiting...")
-                            return
-                        
-                    quantidade = int(item.get("quantity", 0))
-                    cost = int(item.get("cost/unit", 0))
-                    batch = int(item.get("batch", 1))
-                    item["total value"] = quantidade * cost * batch
+                            return   
                     return
 
             except KeyboardInterrupt:
