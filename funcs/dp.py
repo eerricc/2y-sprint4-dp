@@ -2,10 +2,10 @@
 
 
 def total_inventory_value_top(lista):
-    """Top-down (recursive + memo) calculation of total inventory value.
-
-    Returns integer sum of quantity * cost/unit for all items. Invalid/missing
-    numeric values are treated as 0.
+    """
+    top-down 
+    (recursive + memo) 
+    calculation of total inventory value
     """
     memo = {}
     def helper(idx):
@@ -30,7 +30,11 @@ def total_inventory_value_top(lista):
 
 
 def total_inventory_value_bot(lista):
-    """Bottom-up (iterative) calculation of total inventory value."""
+    """
+    bottom-up 
+    (iterative) 
+    calculation of total inventory value
+    """
     total = 0
     for item in lista:
         try:
@@ -46,10 +50,10 @@ def total_inventory_value_bot(lista):
 
 
 def highest_total_product_top(lista):
-    """Top-down (recursive + memo) to find the product with highest total value.
-
-    Returns None if list is empty or no valid products. Otherwise returns a dict
-    with keys: 'item' (original item dict) and 'total_value' (int).
+    """
+    top-down 
+    (recursive + memo)
+    find the product with highest total value
     """
     if not lista:
         return None
@@ -83,7 +87,11 @@ def highest_total_product_top(lista):
 
 
 def highest_total_product_bot(lista):
-    """Bottom-up (iterative) to find the product with highest total value."""
+    """
+    bottom-up 
+    (iterative)
+    find the product with highest total value
+    """
     if not lista:
         return None
     best_item = None
