@@ -4,15 +4,10 @@ from functools import wraps
 
 
 def compare_methods(bottom_func):
-    """Decorator factory that compares a top-down function with a bottom-up one.
+    """
+    decorator that compares top function bottom one.
 
-    Usage:
-        from utils import compare_methods
-
-        # wrap top function so calling it runs both and prints timings
-        top = compare_methods(bottom)(top)
-
-    The wrapped function returns a tuple: (top_result, bottom_result, top_time, bottom_time).
+    the wrapped function returns a tuple: (top_result, bottom_result, top_time, bottom_time).
     """
 
     def decorator(top_func):
