@@ -38,6 +38,12 @@ files:
 - os dicionarios sao armazenados dentro de uma lista
 #### search.py
     funcao para localizar um item especifico em estoque
+---
+### em pratica
+1. o user inicia o programa atravez da main.py, onde ele vai interagir com um menu de opcoes, idealmente ele vai registar algum item atravez da funcao de registro.
+2. com os items adicionados, o user pode checar todos os items, procurar ou editar os items existentes.
+3. por fim, atravez das funcoes de dynamic programming, o user tambem pode observar o valor total do estoque e o item mais custoso
+
 ## integrantes
 - Joao Victor Oliveira dos Santos rm557948
 - Matheus Alcantara Estevao rm558193
